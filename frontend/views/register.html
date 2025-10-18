@@ -1,0 +1,77 @@
+<section id="register" class="auth-section">
+   <div class="content">
+        <div class="form-container mt-5" id="form-container">
+            <div class="form-header">
+                <h3>User Registration</h3>
+            </div>
+            <form action="#" method="POST" id="registrationForm" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First name:</label>
+                    <input type="text" class="form-control" id="firstName" required>
+                    <div class="invalid-feedback">Please enter your first name.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last name:</label>
+                    <input type="text" class="form-control" id="lastName" required>
+                    <div class="invalid-feedback">Please enter your last name.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" required>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="password" required>
+                    <div class="invalid-feedback">Please enter a password.</div>
+                    <div id="passwordStrength"></div> 
+                </div>
+                <div class="form-group">
+                    <label for="passwordConfirm">Confirm Password</label>
+                    <input type="password" class="form-control" id="passwordConfirm" required>
+                    <small id="passwordError" class="form-text text-danger" style="display:none;"></small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number:</label>
+                    <input type="tel" class="form-control" id="phone" required>
+                    <div class="invalid-feedback">Please enter your phone number.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender:</label>
+                    <select class="form-select" id="gender" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="invalid-feedback">Please select your gender.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="dob" class="form-label">Date of Birth:</label>
+                    <input type="date" class="form-control" id="dob" required>
+                    <div class="invalid-feedback">Please select your date of birth.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="text-center mt-3">
+                    <a href="../LoginPage/login.html" class="text-white">Already have an account? Log in</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-container mt-5" id="confirmation-message" style="display:none;">
+            <div class="form-header">
+                <h3>All Set!</h3>
+            </div>
+            <p class="text-white text-center">Your account has been successfully created.</p>
+            <div class="text-center mt-3">
+                <a href="../BeautySalonHome/beautysalon.html" class="btn btn-primary">Back to Home Page</a>
+            </div>
+        </div>
+    </div>
+</section>
