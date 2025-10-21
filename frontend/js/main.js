@@ -126,5 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
             passwordError.style.display = "none";
         }
     });
+// Milestone1 submission test
 
 
