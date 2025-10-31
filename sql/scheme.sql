@@ -1,28 +1,22 @@
-CREATE DATABASE IF NOT EXISTS tattoo_studio;
-USE tattoo_studio;
-
--- 1. USERS table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('client', 'artist', 'admin') DEFAULT 'client',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    created_at TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 2. ARTISTS table
 CREATE TABLE artists (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNIQUE NOT NULL,
     style VARCHAR(150),
     bio TEXT,
     photo_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+    created_at TIMESTAMP,
+    CONSTRAINT fk_artist_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 3. TATTOO_DESIGNS table
 CREATE TABLE tattoo_designs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     artist_id INT NOT NULL,
@@ -34,7 +28,6 @@ CREATE TABLE tattoo_designs (
     FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE
 );
 
--- 4. APPOINTMENTS table
 CREATE TABLE appointments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -50,7 +43,6 @@ CREATE TABLE appointments (
     FOREIGN KEY (design_id) REFERENCES tattoo_designs(id) ON DELETE SET NULL
 );
 
--- 5. PAYMENTS table
 CREATE TABLE payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     appointment_id INT UNIQUE NOT NULL,
