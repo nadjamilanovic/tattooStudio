@@ -1,0 +1,43 @@
+<section class="container my-5">
+    <h2 class="text-center mb-4">Book an Appointment</h2>
+    <form class="booking-form needs-validation" id="bookingForm" method="post" action="#" novalidate>
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+            <label for="service">Select artist</label>
+            <select class="form-control" id="service" required>
+                <option>Jane Doe</option>
+                <option>John Smith</option>
+                <option>Emily Rose</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Preferred Date</label>
+            <input type="date" class="form-control" id="date" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Preferred Time</label>
+            <input type="time" class="form-control" id="time" required>
+        </div>
+        <div class="form-group">
+            <label for="notes">Additional Notes</label>
+            <textarea class="form-control" id="notes" rows="3" placeholder="Any special requests or notes"></textarea>
+        </div>
+        <button type="submit" class="btn btn-block">Submit Booking</button>
+    </form>
+
+    <div class="form-container mt-5" id="confirmation-message" style="display:none;">
+        <div class="form-header">
+            <h3 class="text-center">All Set!</h3>
+        </div>
+</section>

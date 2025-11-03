@@ -1,5 +1,5 @@
 Tattoo Studio Web Application
-
+-MILESTONE1-
 Project Overview
 
 This project is a single-page web application for a Tattoo Studio, built as part of the Web Programming course project.  
@@ -22,7 +22,7 @@ SQL Scheme
 CREATE DATABASE IF NOT EXISTS tattoo_studio;
 USE tattoo_studio;
 
--- 1. USERS table
+1. USERS table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. ARTISTS table
+2. ARTISTS table
 CREATE TABLE artists (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNIQUE NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE artists (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- 3. TATTOO_DESIGNS table
+3. TATTOO_DESIGNS table
 CREATE TABLE tattoo_designs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     artist_id INT NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE tattoo_designs (
     FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE
 );
 
--- 4. APPOINTMENTS table
+4. APPOINTMENTS table
 CREATE TABLE appointments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE appointments (
     FOREIGN KEY (design_id) REFERENCES tattoo_designs(id) ON DELETE SET NULL
 );
 
--- 5. PAYMENTS table
+5. PAYMENTS table
 CREATE TABLE payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     appointment_id INT UNIQUE NOT NULL,
@@ -127,3 +127,15 @@ Frontend Pages
 - Footer – Contains contact info, working hours, and social links  
 
 All navigation occurs dynamically without page reloads.
+
+-MILESTONE2-
+
+This milestone covers the database setup and backend connection:
+-Created database with all necessary tables (users, artists, tattoo_designs, appointments, payments)
+-Made config.php file for connecting to the database
+-Created BaseDao with basic CRUD operations
+-All DAO files (UsersDao, ArtistsDao, TattooDesignsDao, AppointmentsDao, PaymentsDao) extend BaseDao
+-Added password hashing when inserting users
+-Wrote test_daos.php to test inserts and fetch results
+
+![ER Diagram](docs/ERD.png)

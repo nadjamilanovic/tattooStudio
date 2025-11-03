@@ -1,20 +1,25 @@
-function loadPage(page) {
-    fetch(`views/${page}.html`)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('main-content').innerHTML = html;
+window.addEventListener('DOMContentLoaded', event => {
 
-            document.querySelectorAll("nav a").forEach(link => {
-                const linkPage = link.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
-                link.classList.toggle("active", linkPage === page);
-            });
+    // Navbar shrink function
+    var navbarShrink = function () {
+        const navbarCollapsible = document.body.querySelector('#mainNav');
+        if (!navbarCollapsible) {
+            return;
+        }
+        if (window.scrollY === 0) {
+            navbarCollapsible.classList.remove('navbar-shrink')
+        } else {
+            navbarCollapsible.classList.add('navbar-shrink')
+        }
 
-            initPageScripts(page);
-        })
-        .catch(() => {
-            document.getElementById('main-content').innerHTML = "<p>Page not found.</p>";
-        });
-}
+    };
+
+    // Shrink the navbar 
+    navbarShrink();
+
+    // Shrink the navbar when page is scrolled
+    document.addEventListener('scroll', navbarShrink);
+
 
 function initPageScripts(page) {
 
@@ -126,6 +131,25 @@ document.addEventListener("DOMContentLoaded", () => {
             passwordError.style.display = "none";
         }
     });
-// Milestone1 submission test
 
+/*bookings */
+document.addEventListener('DOMContentLoaded', () => {
+    const bookingForm = document.getElementById('bookingForm');
+    const confirmation = document.getElementById('confirmation-message');
+
+    bookingForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // spriječi reload stranice
+
+        if (!bookingForm.checkValidity()) {
+            event.stopPropagation();
+            bookingForm.classList.add('was-validated');
+            return;
+        }
+
+        bookingForm.style.display = 'none';
+        confirmation.style.display = 'block';
+    });
+});
+
+});
 
