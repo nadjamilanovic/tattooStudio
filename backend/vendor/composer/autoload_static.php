@@ -8,8 +8,8 @@ class ComposerStaticInit823e92ae3d3deceb390860de731975bf
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'fc73bab8d04e21bcdda37ca319c63800' => __DIR__ . '/..' . '/mikecao/flight/flight/autoload.php',
+        '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -22,8 +22,7 @@ class ComposerStaticInit823e92ae3d3deceb390860de731975bf
         'P' => 
         array (
             'Psr\\Log\\' => 8,
-            'PhpParser\\' => 10,
-            'PHPStan\\PhpDocParser\\' => 21,
+            'Psr\\Cache\\' => 10,
         ),
         'O' => 
         array (
@@ -32,6 +31,12 @@ class ComposerStaticInit823e92ae3d3deceb390860de731975bf
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Deprecations\\' => 22,
+            'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
         ),
     );
 
@@ -52,13 +57,9 @@ class ComposerStaticInit823e92ae3d3deceb390860de731975bf
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'PhpParser\\' => 
+        'Psr\\Cache\\' => 
         array (
-            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
-        ),
-        'PHPStan\\PhpDocParser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'OpenApi\\' => 
         array (
@@ -67,6 +68,18 @@ class ComposerStaticInit823e92ae3d3deceb390860de731975bf
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
+        ),
+        'Doctrine\\Common\\Lexer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/lexer/src',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
         ),
     );
 

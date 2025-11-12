@@ -21,9 +21,11 @@ class Property extends Schema
     public $property = Generator::UNDEFINED;
 
     /**
-     * @var Encoding
+     * Indicates the property is nullable.
+     *
+     * @var bool
      */
-    public $encoding = Generator::UNDEFINED;
+    public $nullable = Generator::UNDEFINED;
 
     /**
      * @inheritdoc
@@ -47,20 +49,6 @@ class Property extends Schema
         ExternalDocumentation::class => 'externalDocs',
         Xml::class => 'xml',
         AdditionalProperties::class => 'additionalProperties',
-        Encoding::class => 'encoding',
         Attachable::class => ['attachables'],
     ];
-
-    /**
-     * @inheritdoc
-     */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
-    {
-        $data = parent::jsonSerialize();
-
-        unset($data->encoding);
-
-        return $data;
-    }
 }
