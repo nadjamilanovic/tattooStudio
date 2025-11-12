@@ -1,31 +1,31 @@
 <?php
-require_once __DIR__ . '/../repositories/paymentsRepository.php';
+require_once(__DIR__ . '/BaseService.php');
+require_once(__DIR__ . '/../dao/PaymentsDao.php');
 
-class PaymentsService {
-    private $repository;
-
+class PaymentsService extends BaseService {
     public function __construct() {
-        $this->repository = new PaymentsRepository();
+        parent::__construct(new PaymentsDao());
     }
 
-    public function getAllPayments() {
-        return $this->repository->getAllPayments();
+    public function create_payment($payment) {
+        return $this->dao->insert('payments', $payment);
     }
 
-    public function getPaymentById($id) {
-        return $this->repository->getPaymentById($id);
+    public function get_all_payments() {
+        return $this->dao->query("SELECT * FROM payments");
     }
 
-    public function addPayment($data) {
-        return $this->repository->addPayment($data);
+    public function get_payment_by_id($id) {
+        return $this->dao->query_unique("SELECT * FROM payments WHERE id = :id", ['id' => $id]);
     }
 
-    public function updatePayment($id, $data) {
-        return $this->repository->updatePayment($id, $data);
+    public function update_payment($id, $payment) {
+        $this->update('payments', $id, $payment);
+        return $this->dao->get_payment_by_id($id);
     }
 
-    public function deletePayment($id) {
-        return $this->repository->deletePayment($id);
+    public function delete_payment($id) {
+        return $this->dao->execute("DELETE FROM payments WHERE id = :id", ['id' => $id]);
     }
 }
 ?>

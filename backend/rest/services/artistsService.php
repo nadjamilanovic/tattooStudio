@@ -1,34 +1,30 @@
 <?php
-require_once __DIR__ . '/../dao/ArtistDao.php';
+require_once(__DIR__ . '/BaseService.php');
+require_once(__DIR__ . '/../dao/ArtistsDao.php');
 
-class ArtistService {
-    private $artistDao;
-
+class ArtistsService extends BaseService {
     public function __construct() {
-        $this->artistDao = new ArtistDao();
+        parent::__construct(new ArtistsDao());
+    }
+    public function create_artist($artist) {
+        return $this->dao->insert('artists', $artist);
     }
 
-    public function getAllArtists() {
-        return $this->artistDao->getAll();
+    public function get_all_artists() {
+        return $this->dao->query("SELECT * FROM artists");
     }
 
-    public function getArtistById($id) {
-        return $this->artistDao->getById($id);
+    public function get_artist_by_id($id) {
+        return $this->dao->query_unique("SELECT * FROM artists WHERE id = :id", ['id' => $id]);
     }
 
-    public function createArtist($data) {
-        if (empty($data['user_id'])) {
-            throw new Exception("user_id is required!");
-        }
-        return $this->artistDao->add($data);
+    public function update_artist($id, $artist) {
+        $this->update('artists', $id, $artist);
+        return $this->dao->get_artist_by_id($id);
     }
 
-    public function updateArtist($id, $data) {
-        return $this->artistDao->update($id, $data);
-    }
-
-    public function deleteArtist($id) {
-        return $this->artistDao->delete($id);
+    public function delete_artist($id) {
+        return $this->dao->execute("DELETE FROM artists WHERE id = :id", ['id' => $id]);
     }
 }
 ?>
