@@ -1,7 +1,7 @@
 <?php
 class Database {
    private static $host = 'localhost';
-   private static $dbName = 'tattooStudio'; 
+   private static $dbName = 'tattoo_studio'; 
    private static $username = 'root';         
    private static $password = 'NovaLozinka123!';             
    private static $connection = null;

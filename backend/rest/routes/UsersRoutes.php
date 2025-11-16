@@ -1,91 +1,121 @@
 <?php
-require_once __DIR__ . '/../services/UsersService.php';
 
 /**
  * @OA\Get(
  *     path="/users",
+ *     tags={"users"},
  *     summary="Get all users",
- *     tags={"Users"},
- *     @OA\Response(response=200, description="List of all users")
+ *     @OA\Response(
+ *         response=200,
+ *         description="Array of all users in the database"
+ *     )
  * )
  */
+Flight::route('GET /users', function() {
+    Flight::json(Flight::usersService()->getAllUsers());
+});
+
 
 /**
  * @OA\Get(
  *     path="/users/{id}",
+ *     tags={"users"},
  *     summary="Get user by ID",
- *     tags={"Users"},
- *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
- *     @OA\Response(response=200, description="User data")
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Returns the user with the given ID"
+ *     )
  * )
  */
+Flight::route('GET /users/@id', function($id) {
+    Flight::json(Flight::usersService()->getUserById($id));
+});
+
 
 /**
  * @OA\Post(
  *     path="/users",
+ *     tags={"users"},
  *     summary="Create a new user",
- *     tags={"Users"},
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"name","email","password"},
- *             @OA\Property(property="name", type="string"),
- *             @OA\Property(property="email", type="string"),
- *             @OA\Property(property="password", type="string")
+ *             required={"name", "email", "password"},
+ *             @OA\Property(property="name", type="string", example="John Doe"),
+ *             @OA\Property(property="email", type="string", example="john@example.com"),
+ *             @OA\Property(property="password", type="string", example="123456")
  *         )
  *     ),
- *     @OA\Response(response=201, description="User created successfully")
+ *     @OA\Response(
+ *         response=201,
+ *         description="New user created"
+ *     )
  * )
  */
+Flight::route('POST /users', function() {
+    $data = Flight::request()->data->getData();
+    Flight::json(Flight::usersService()->createUser($data));
+});
+
 
 /**
  * @OA\Put(
  *     path="/users/{id}",
+ *     tags={"users"},
  *     summary="Update an existing user",
- *     tags={"Users"},
- *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="User ID",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
  *     @OA\RequestBody(
+ *         required=true,
  *         @OA\JsonContent(
- *             @OA\Property(property="name", type="string"),
- *             @OA\Property(property="email", type="string")
+ *             @OA\Property(property="name", type="string", example="Updated Name"),
+ *             @OA\Property(property="email", type="string", example="newemail@example.com")
  *         )
  *     ),
- *     @OA\Response(response=200, description="User updated successfully")
+ *     @OA\Response(
+ *         response=200,
+ *         description="User updated"
+ *     )
  * )
  */
+Flight::route('PUT /users/@id', function($id) {
+    $data = Flight::request()->data->getData();
+    Flight::json(Flight::usersService()->updateUser($id, $data));
+});
+
 
 /**
  * @OA\Delete(
  *     path="/users/{id}",
- *     summary="Delete a user",
- *     tags={"Users"},
- *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
- *     @OA\Response(response=200, description="User deleted successfully")
+ *     tags={"users"},
+ *     summary="Delete a user by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="User ID",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User deleted"
+ *     )
  * )
  */
-
-Flight::group('/users', function() {
-    Flight::route('GET /', function() {
-        Flight::json(Flight::usersService()->getAll());
-    });
-
-    Flight::route('GET /@id', function($id) {
-        Flight::json(Flight::usersService()->getById($id));
-    });
-
-    Flight::route('POST /', function() {
-        $data = Flight::request()->data->getData();
-        Flight::json(Flight::usersService()->create($data));
-    });
-
-    Flight::route('PUT /@id', function($id) {
-        $data = Flight::request()->data->getData();
-        Flight::json(Flight::usersService()->update($id, $data));
-    });
-
-    Flight::route('DELETE /@id', function($id) {
-        Flight::usersService()->delete($id);
-        Flight::json(["message" => "User deleted successfully"]);
-    });
+Flight::route('DELETE /users/@id', function($id) {
+    Flight::usersService()->deleteUser($id);
+    Flight::json(["message" => "User deleted successfully"]);
 });
 ?>

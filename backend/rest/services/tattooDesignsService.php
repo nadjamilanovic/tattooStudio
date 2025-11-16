@@ -8,23 +8,23 @@ class TattooDesignsService extends BaseService {
     }
 
     public function createDesign($data) {
-        return $this->dao->insert($data);
+        return $this->dao->createDesign($data);
     }
 
     public function getAllDesigns() {
-        return $this->dao->getAll();
+        return $this->dao->getAllDesigns();
     }
 
     public function getDesignById($id) {
-        return $this->dao->getById($id);
+        return $this->dao->getDesignById($id);
     }
 
     public function updateDesign($id, $data) {
-        return $this->dao->update($id, $data);
+        return $this->dao->updateDesign($id, $data);
     }
 
     public function deleteDesign($id) {
-        return $this->dao->delete($id);
+        return $this->dao->deleteDesign($id);
     }
 }
 ?>

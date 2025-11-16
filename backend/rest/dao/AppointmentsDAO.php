@@ -7,25 +7,25 @@ class AppointmentsDao extends BaseDao {
         parent::__construct("appointments");
     }
 
-    public function create_appointment($appointment) {
-        return $this->insert('appointments', $appointment);
+    public function createAppointment($appointment) {
+        return $this->insert($appointment); 
     }
 
-    public function get_all_appointments() {
-        return $this->query("SELECT * FROM appointments");
+    public function getAllAppointments() {
+        return $this->getAll(); 
     }
 
-    public function get_appointment_by_id($id) {
-        return $this->query_unique("SELECT * FROM appointments WHERE id = :id", ['id' => $id]);
+    public function getAppointmentById($id) {
+        return $this->getById($id); 
     }
 
-    public function update_appointment($id, $appointment) {
-        $this->update('appointments', $id, $appointment);
-        return $this->get_appointment_by_id($id);
+    public function updateAppointment($id, $appointment) {
+        $this->update($id, $appointment); 
+        return $this->getById($id);
     }
 
-    public function delete_appointment($id) {
-        return $this->execute("DELETE FROM appointments WHERE id = :id", ['id' => $id]);
+    public function deleteAppointment($id) {
+        return $this->delete($id); 
     }
 }
 ?>

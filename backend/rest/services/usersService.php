@@ -7,27 +7,23 @@ class UsersService extends BaseService {
         parent::__construct(new UsersDao());
     }
     public function createUser($data) {
-        return $this->dao->insert($data);
+        return $this->dao->createUser($data);
     }
     public function getAllUsers() {
-        return $this->dao->getAll();
+        return $this->dao->getAllUsers();
     }
     public function getUserById($id) {
-        return $this->dao->getById($id);
+        return $this->dao->getUserById($id);
     }
     public function getByEmail($email) {
-        $stmt = $this->connection->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        return $stmt->dao->fetch();
+    return $this->dao->getByEmail($email);
     }
-
     public function updateUser($id, $data) {
-        return $this->dao->update($id, $data);
+        return $this->dao->updateUser($id, $data);
     }
 
     public function deleteUser($id) {
-        return $this->dao->delete($id);
+        return $this->dao->deleteUser($id);
     }
 }
 ?>

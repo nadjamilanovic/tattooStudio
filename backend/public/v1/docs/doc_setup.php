@@ -1,26 +1,29 @@
 <?php
+
 /**
-* @OA\Info(
-*     title="API",
-*     description="Student API",
-*     version="1.0",
-*     @OA\Contact(
-*         email="ilma.gusinac@ibu.edu.ba",
-*         name="Web Programming"
-*     )
-* )
-*/
+ * @OA\Info(
+ *     title="Tattoo Studio API",
+ *     description="API for managing tattoo artists, clients, appointments, tattoo designs and payments.",
+ *     version="1.0",
+ *     @OA\Contact(
+ *         email="nada.milanovic@stu.ibu.edu.ba",
+ *         name="Nadja Milanovic"
+ *     )
+ * )
+ */
+
 /**
-* @OA\Server(
-*     url= "http://localhost/web-programming-2025/backend",
-*     description="API server"
-* )
-*/
+ * @OA\Server(
+ *     url="http://localhost/TattooStudio1/TattooStudio1/backend",
+ *     description="Local API Server"
+ * )
+ */
+
 /**
-* @OA\SecurityScheme(
-*     securityScheme="ApiKey",
-*     type="apiKey",
-*     in="header",
-*     name="Authentication"
-* )
-*/
+ * @OA\SecurityScheme(
+ *     securityScheme="ApiKey",
+ *     type="apiKey",
+ *     in="header",
+ *     name="Authentication"
+ * )
+ */
