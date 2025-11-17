@@ -1,31 +1,29 @@
 <?php
-require_once __DIR__ . '/../repositories/appointmentsRepository.php';
+require_once(__DIR__ . '/BaseService.php');
+require_once(__DIR__ . '/../dao/AppointmentsDao.php');
 
-class AppointmentsService {
-    private $repository;
-
+class AppointmentsService extends BaseService {
     public function __construct() {
-        $this->repository = new AppointmentsRepository();
+        parent::__construct(new AppointmentsDao());
+    }
+    public function createAppointment($appointment) {
+        return $this->dao->createAppointment($appointment);
     }
 
     public function getAllAppointments() {
-        return $this->repository->getAllAppointments();
+        return $this->dao->getAllAppointments();
     }
 
     public function getAppointmentById($id) {
-        return $this->repository->getAppointmentById($id);
+        return $this->dao->getAppointmentById($id);
     }
 
-    public function addAppointment($data) {
-        return $this->repository->addAppointment($data);
-    }
-
-    public function updateAppointment($id, $data) {
-        return $this->repository->updateAppointment($id, $data);
+    public function updateAppointment($id, $appointment) {
+        return $this->dao->updateAppointment($id, $appointment);
     }
 
     public function deleteAppointment($id) {
-        return $this->repository->deleteAppointment($id);
+        return $this->dao->deleteAppointment($id);
     }
 }
 ?>

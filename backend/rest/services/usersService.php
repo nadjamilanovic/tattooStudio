@@ -1,35 +1,29 @@
 <?php
-require_once __DIR__ . '/../dao/UserDao.php';
+require_once(__DIR__ . '/BaseService.php');
+require_once(__DIR__ . '/../dao/UsersDao.php');
 
-class UserService {
-    private $userDao;
-
+class UsersService extends BaseService {
     public function __construct() {
-        $this->userDao = new UserDao();
+        parent::__construct(new UsersDao());
     }
-
-    public function getAllUsers() {
-        return $this->userDao->getAll();
-    }
-
-    public function getUserById($id) {
-        return $this->userDao->getById($id);
-    }
-
     public function createUser($data) {
-        if (empty($data['name']) || empty($data['email']) || empty($data['password'])) {
-            throw new Exception("All fields are required!");
-        }
-        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-        return $this->userDao->add($data);
+        return $this->dao->createUser($data);
     }
-
+    public function getAllUsers() {
+        return $this->dao->getAllUsers();
+    }
+    public function getUserById($id) {
+        return $this->dao->getUserById($id);
+    }
+    public function getByEmail($email) {
+    return $this->dao->getByEmail($email);
+    }
     public function updateUser($id, $data) {
-        return $this->userDao->update($id, $data);
+        return $this->dao->updateUser($id, $data);
     }
 
     public function deleteUser($id) {
-        return $this->userDao->delete($id);
+        return $this->dao->deleteUser($id);
     }
 }
 ?>

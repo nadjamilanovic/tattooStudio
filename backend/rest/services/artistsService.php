@@ -1,34 +1,29 @@
 <?php
-require_once __DIR__ . '/../dao/ArtistDao.php';
+require_once(__DIR__ . '/BaseService.php');
+require_once(__DIR__ . '/../dao/ArtistsDao.php');
 
-class ArtistService {
-    private $artistDao;
-
+class ArtistsService extends BaseService {
     public function __construct() {
-        $this->artistDao = new ArtistDao();
+        parent::__construct(new ArtistsDao());
+    }
+    public function createArtist($artist) {
+        return $this->dao->createArtist($artist);
     }
 
     public function getAllArtists() {
-        return $this->artistDao->getAll();
+        return $this->dao->getAllArtists();
     }
 
     public function getArtistById($id) {
-        return $this->artistDao->getById($id);
+        return $this->dao->getArtistById($id);
     }
 
-    public function createArtist($data) {
-        if (empty($data['user_id'])) {
-            throw new Exception("user_id is required!");
-        }
-        return $this->artistDao->add($data);
-    }
-
-    public function updateArtist($id, $data) {
-        return $this->artistDao->update($id, $data);
+    public function updateArtist($id, $artist) {
+        return $this->dao->updateArtist($id, $artist);
     }
 
     public function deleteArtist($id) {
-        return $this->artistDao->delete($id);
+        return $this->dao->deleteArtist($id);
     }
 }
 ?>

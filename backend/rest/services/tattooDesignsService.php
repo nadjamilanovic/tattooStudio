@@ -1,31 +1,30 @@
 <?php
-require_once __DIR__ . '/../repositories/tattooDesignsRepository.php';
+require_once(__DIR__ . '/BaseService.php');
+require_once(__DIR__ . '/../dao/TattooDesignsDao.php');
 
-class TattooDesignsService {
-    private $repository;
-
+class TattooDesignsService extends BaseService {
     public function __construct() {
-        $this->repository = new TattooDesignsRepository();
+        parent::__construct(new TattooDesignsDao());
+    }
+
+    public function createDesign($data) {
+        return $this->dao->createDesign($data);
     }
 
     public function getAllDesigns() {
-        return $this->repository->getAllDesigns();
+        return $this->dao->getAllDesigns();
     }
 
     public function getDesignById($id) {
-        return $this->repository->getDesignById($id);
-    }
-
-    public function addDesign($data) {
-        return $this->repository->addDesign($data);
+        return $this->dao->getDesignById($id);
     }
 
     public function updateDesign($id, $data) {
-        return $this->repository->updateDesign($id, $data);
+        return $this->dao->updateDesign($id, $data);
     }
 
     public function deleteDesign($id) {
-        return $this->repository->deleteDesign($id);
+        return $this->dao->deleteDesign($id);
     }
 }
 ?>
