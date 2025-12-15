@@ -6,8 +6,26 @@ class UsersService extends BaseService {
     public function __construct() {
         parent::__construct(new UsersDao());
     }
-    public function createUser($data) {
+    public function registerUser($data) {
+        if (!isset($data['password']) || empty($data['password'])) {
+            throw new Exception("Password is required");
+        }
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        if (!isset($data['role'])) {
+            $data['role'] = 'user';
+        }
         return $this->dao->createUser($data);
+    }
+    public function loginUser($email, $password) {
+        $user = $this->dao->getByEmail($email);
+        if (!$user) {
+            throw new Exception("User not found");
+        }
+        if (!password_verify($password, $user['password'])) {
+            throw new Exception("Invalid password");
+        }
+        unset($user['password']);
+        return $user;
     }
     public function getAllUsers() {
         return $this->dao->getAllUsers();

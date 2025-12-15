@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../services/ArtistsService.php';
+require_once __DIR__ . '/../middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../data/Roles.php';
 
+Flight::register('auth_middleware', 'AuthMiddleware');
 /**
  * @OA\Get(
  *     path="/artists",
@@ -13,6 +16,7 @@ require_once __DIR__ . '/../services/ArtistsService.php';
  * )
  */
 Flight::route('GET /artists', function() {
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
     Flight::json(Flight::artistsService()->getAllArtists());
 });
 
@@ -35,9 +39,9 @@ Flight::route('GET /artists', function() {
  * )
  */
 Flight::route('GET /artists/@id', function($id) {
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
     Flight::json(Flight::artistsService()->getArtistById($id));
 });
-
 /**
  * @OA\Post(
  *     path="/artists",
@@ -58,6 +62,8 @@ Flight::route('GET /artists/@id', function($id) {
  * )
  */
 Flight::route('POST /artists', function() {
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // samo admin
     $data = Flight::request()->data->getData();
     Flight::json(Flight::artistsService()->createArtist($data));
 });
@@ -87,6 +93,8 @@ Flight::route('POST /artists', function() {
  * )
  */
 Flight::route('PUT /artists/@id', function($id) {
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // samo admin
     $data = Flight::request()->data->getData();
     Flight::json(Flight::artistsService()->updateArtist($id, $data));
 });
@@ -110,6 +118,8 @@ Flight::route('PUT /artists/@id', function($id) {
  * )
  */
 Flight::route('DELETE /artists/@id', function($id) {
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // samo admin
     Flight::artistsService()->deleteArtist($id);
     Flight::json(["message" => "Artist deleted successfully"]);
 });

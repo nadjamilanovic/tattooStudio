@@ -1,5 +1,7 @@
 <?php
-
+require_once __DIR__ . '/../services/UsersService.php';
+require_once __DIR__ . '/../middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../data/Roles.php';
 /**
  * @OA\Get(
  *     path="/users",
@@ -11,8 +13,11 @@
  *     )
  * )
  */
-Flight::route('GET /users', function() {
-    Flight::json(Flight::usersService()->getAllUsers());
+Flight::route('GET /users', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+    Flight::json([
+        "data" => Flight::usersService()->getAllUsers()
+    ]);
 });
 
 
@@ -34,36 +39,16 @@ Flight::route('GET /users', function() {
  *     )
  * )
  */
-Flight::route('GET /users/@id', function($id) {
-    Flight::json(Flight::usersService()->getUserById($id));
+Flight::route('GET /users/@id', function ($id) {
+    $currentUser = Flight::get('user');
+    if ($currentUser->role !== Roles::ADMIN && $currentUser->id != $id) {
+        Flight::halt(403, 'Access denied: insufficient privileges');
+    }
+
+    Flight::json([
+        "data" => Flight::usersService()->getUserById($id)
+    ]);
 });
-
-
-/**
- * @OA\Post(
- *     path="/users",
- *     tags={"users"},
- *     summary="Create a new user",
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"name", "email", "password"},
- *             @OA\Property(property="name", type="string", example="John Doe"),
- *             @OA\Property(property="email", type="string", example="john@example.com"),
- *             @OA\Property(property="password", type="string", example="123456")
- *         )
- *     ),
- *     @OA\Response(
- *         response=201,
- *         description="New user created"
- *     )
- * )
- */
-Flight::route('POST /users', function() {
-    $data = Flight::request()->data->getData();
-    Flight::json(Flight::usersService()->createUser($data));
-});
-
 
 /**
  * @OA\Put(
@@ -90,12 +75,18 @@ Flight::route('POST /users', function() {
  *     )
  * )
  */
-Flight::route('PUT /users/@id', function($id) {
+Flight::route('PUT /users/@id', function ($id) {
+    $currentUser = Flight::get('user');
+    if ($currentUser->role !== Roles::ADMIN && $currentUser->id != $id) {
+        Flight::halt(403, 'Access denied: insufficient privileges');
+    }
+
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::usersService()->updateUser($id, $data));
+    Flight::json([
+        "message" => "User updated successfully",
+        "data" => Flight::usersService()->updateUser($id, $data)
+    ]);
 });
-
-
 /**
  * @OA\Delete(
  *     path="/users/{id}",
@@ -114,8 +105,11 @@ Flight::route('PUT /users/@id', function($id) {
  *     )
  * )
  */
-Flight::route('DELETE /users/@id', function($id) {
+Flight::route('DELETE /users/@id', function ($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     Flight::usersService()->deleteUser($id);
-    Flight::json(["message" => "User deleted successfully"]);
+    Flight::json([
+        "message" => "User deleted successfully"
+    ]);
 });
 ?>

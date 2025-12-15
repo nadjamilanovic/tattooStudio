@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../services/AppointmentsService.php';
+require_once __DIR__ . '/../middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../data/Roles.php';
 
-
+Flight::register('auth_middleware', 'AuthMiddleware');
 /**
  * @OA\Get(
  *      path="/appointments",
@@ -14,9 +16,9 @@ require_once __DIR__ . '/../services/AppointmentsService.php';
  * )
  */
 Flight::route('GET /appointments', function(){
-   Flight::json(Flight::appointmentsService()->getAllAppointments());
+    $user = Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::json(Flight::appointmentsService()->getAllAppointments());
 });
-
 
 /**
  * @OA\Get(
@@ -37,7 +39,8 @@ Flight::route('GET /appointments', function(){
  * )
  */
 Flight::route('GET /appointments/@id', function($id){
-Flight::json(Flight::appointmentsService()->getAppointmentById($id));
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::json(Flight::appointmentsService()->getAppointmentById($id));
 });
 
 
@@ -62,8 +65,10 @@ Flight::json(Flight::appointmentsService()->getAppointmentById($id));
  * )
  */
 Flight::route('POST /appointments', function(){
-   $data = Flight::request()->data->getData();
-   Flight::json(Flight::appointmentsService()->createAppointment($data));
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // samo admin
+    $data = Flight::request()->data->getData();
+    Flight::json(Flight::appointmentsService()->createAppointment($data));
 });
 
 
@@ -93,10 +98,11 @@ Flight::route('POST /appointments', function(){
  * )
  */
 Flight::route('PUT /appointments/@id', function($id){
-   $data = Flight::request()->data->getData();
-Flight::json(Flight::appointmentsService()->updateAppointment($id, $data));
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // samo admin
+    $data = Flight::request()->data->getData();
+    Flight::json(Flight::appointmentsService()->updateAppointment($id, $data));
 });
-
 
 /**
  * @OA\Delete(
@@ -117,6 +123,9 @@ Flight::json(Flight::appointmentsService()->updateAppointment($id, $data));
  * )
  */
 Flight::route('DELETE /appointments/@id', function($id){
-Flight::appointmentsService()->deleteAppointment($id);
-   Flight::json(["message" => "Appointment deleted successfully"]);
+    Flight::auth_middleware()->verifyToken(Flight::request()->getHeader("Authentication"));
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN); // samo admin
+    Flight::appointmentsService()->deleteAppointment($id);
+    Flight::json(["message" => "Appointment deleted successfully"]);
 });
+?>
